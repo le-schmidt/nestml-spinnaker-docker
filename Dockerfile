@@ -48,7 +48,6 @@ RUN python -m spynnaker.pyNN.setup_pynn
 
 # 5 Setup C environment and build
 RUN bash SupportScripts/automatic_make.sh
-
 COPY .spynnaker.cfg /root
 
 
@@ -59,4 +58,4 @@ WORKDIR /home/nestml
 RUN git checkout spinnaker-new
 RUN python setup.py install --user
 RUN pip install pytest
-RUN pytest /home/nestml/tests/spinnaker_tests/test_spinnaker_iaf_psc_exp.py 
+# RUN pytest /home/nestml/tests/spinnaker_tests/test_spinnaker_iaf_psc_exp.py 
