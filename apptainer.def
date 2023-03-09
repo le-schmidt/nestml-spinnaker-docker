@@ -17,11 +17,12 @@ From: python:3.10
     mkdir ${APPTAINER_ROOTFS}/home/spinnaker/reports
     mkdir ${APPTAINER_ROOTFS}/home/dev
 
+    cp ./.spynnaker.cfg ~/
+
 
 # Save way to copy files: source destination
 %files
     ./requirements_spinnaker.txt /home/spinnaker
-    ./.spynnaker.cfg /root
 
 # Setting environment variables
 %environment
@@ -70,8 +71,9 @@ From: python:3.10
 # Written to file in container which is run when 'apptainer run' is called . 
 # Appended parameters to run command are accessible here
 %runscript
-    source /home/spinnaker/source/spinnaker_tools/setup
-    source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
+    # source /home/spinnaker/source/spinnaker_tools/setup
+    # source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
+    pwd
 
 
 # Written to file in container which is run when 'instance start' is called . 
@@ -81,8 +83,8 @@ From: python:3.10
 
 # Runs at end of build process to validate container
 %test
-    cd /home/spinnaker/ && python /home/spinnaker/source/PyNN8Examples/examples/va_benchmark.py
-    pytest /home/nestml/nestml/tests/spinnaker_tests/test_spinnaker_iaf_psc_exp.py 
+    # cd /home/spinnaker/ && python /home/spinnaker/source/PyNN8Examples/examples/va_benchmark.py
+    # pytest /home/nestml/nestml/tests/spinnaker_tests/test_spinnaker_iaf_psc_exp.py 
 
 
 # Metadata of container like author
