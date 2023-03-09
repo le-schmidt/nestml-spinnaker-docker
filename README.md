@@ -1,6 +1,10 @@
 # Content
 This repository contains the description files to make a Docker-Image as well as an Apptainer-Image.
 
+## Configure Spinnaker
+Before building the image edit the spynnaker.cfg to work with your board.
+This can also be done afterwards by copying and replacing the config file in your home directory with your edited version
+
 ## Apptainer
 To build the Apptainer image just run:
     
@@ -20,7 +24,7 @@ or execute a command in container with
 
     apptainer exec /path/to/image.sif command
 
-## Docker
+## Docker (Untested)
 To build the Docker image just run:
 
     docker build /path/to/Dockerfile
