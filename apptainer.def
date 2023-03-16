@@ -20,13 +20,13 @@ From: python:3.10
     cp ./.spynnaker.cfg ~/
 
 
-# Save way to copy files: source destination
+# Save way to copy files: source destination(in container)
 %files
     ./requirements_spinnaker.txt /home/spinnaker
 
 # Setting environment variables
 %environment
-    export PATH=/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
+    export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
 
 
 # Downloading, installing libraries, define environment variables used in build process
@@ -35,33 +35,33 @@ From: python:3.10
     apt-get upgrade -y
 
     # [Spinnaker] Python requirements
-    pip install -r /home/spinnaker/requirements_spinnaker.txt
+    pip install -r ${APPTAINER_ROOTFS}/$HOME/spinnaker/requirements_spinnaker.txt
 
     # [Spinnaker] Manual install arm-none-eabi toolchain (apt uses old version)
     # apt-get install gcc-arm-none-eabi  libnewlib-arm-none-eabi -y
-    wget -P /home/dev https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
-    tar xvf /home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev
-    rm /home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
-    export PATH=/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
+    wget -P ${APPTAINER_ROOTFS}/home/dev https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+    echo "Unpacking gcc-arm-none-eabi toolchain"
+    tar xvf ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev >/dev/null
+    rm ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
+    export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
     echo $PATH
 
     # [Spinnaker] Perl
     apt-get install perl perl-tk libterm-readline-gnu-perl -y
 
     # [Spinnaker] Source repositories
-    git clone https://github.com/SpiNNakerManchester/SupportScripts /home/spinnaker/source/SupportScripts
-    cd /home/spinnaker/source && bash /home/spinnaker/source/SupportScripts/install.sh 8 -y
-    # [NESTML] Python requirements
-    cd /home/spinnaker/source && bash /home/spinnaker/source/SupportScripts/setup.sh
+    git clone https://github.com/SpiNNakerManchester/SupportScripts ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts
+    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/install.sh 8 -y
+    # [Spinnaker] Setup libraries
+    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/setup.sh > /dev/null
     python -m spynnaker.pyNN.setup_pynn
 
-    # [NESTML] C Environment
-    echo $PATH
-    ls /home/dev
-    cd /home/spinnaker/source && bash /home/spinnaker/source/SupportScripts/automatic_make.sh
+    # [Spinnaker] C Environment
+    echo "Compiling libraries"
+    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh > /dev/null
 
     # [NESTML] Source repository
-    git clone https://github.com/siirty/nestml.git home/nestml
+    git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
 
     # [NESTML] Python testing
     pip install pytest
