@@ -35,7 +35,7 @@ From: python:3.10
     apt-get upgrade -y
 
     # [Spinnaker] Python requirements
-    pip install -r ${APPTAINER_ROOTFS}/$HOME/spinnaker/requirements_spinnaker.txt
+    pip install -r ${APPTAINER_ROOTFS}/spinnaker/requirements_spinnaker.txt
 
     # [Spinnaker] Manual install arm-none-eabi toolchain (apt uses old version)
     # apt-get install gcc-arm-none-eabi  libnewlib-arm-none-eabi -y
