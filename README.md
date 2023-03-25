@@ -14,21 +14,20 @@ This can also be done afterwards by copying and replacing the config file in you
 
 2. We need to generate an overlay which is used to make folders writable
         
-        apptainer shell --overlay /tmp/spinnaker_reports_overlay.img target.sif 
+        apptainer overlay create --size 512 /tmp/working_overlay.img
 
 
 3. Start the container with shell by calling
 
-        apptainer shell --overlay /tmp/spinnaker_reports_overlay.img image.sif 
-
+        apptainer shell --overlay /tmp/working_overlay.img /path/to/image.sif 
 
     or just run the container with
 
-        apptainer run --overlay /tmp/spinnaker_reports_overlay.img /path/to/image.sif
+        apptainer run --overlay /tmp/working_overlay.img /path/to/image.sif
 
     or execute a command in container with
 
-        apptainer exec --overlay /tmp/spinnaker_reports_overlay.img /path/to/image.sif command
+        apptainer exec --overlay /tmp/working_overlay.img /path/to/image.sif command
 
 4. Test if spinnaker is all setup by going to spinnaker source folder
 
