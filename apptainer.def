@@ -49,6 +49,7 @@ From: python:3.10
     # [Spinnaker] Perl
     apt-get install perl perl-tk libterm-readline-gnu-perl -y
 
+    # Checked in SupportScripts/setup to install for user
     export VIRTUAL_ENV="Place"
 
     # [Spinnaker] Source repositories
@@ -75,7 +76,6 @@ From: python:3.10
 %runscript
     # source /home/spinnaker/source/spinnaker_tools/setup
     # source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
-    pwd
 
 
 # Written to file in container which is run when 'instance start' is called . 
