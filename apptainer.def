@@ -27,7 +27,9 @@ From: python:3.10
 # Setting environment variables
 %environment
     export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
-
+    cd /home/spinnaker/source/spinnaker_tools
+    source ${APPTAINER_ROOTFS}/home/spinnaker/source/spinnaker_tools/setup
+    cd /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
 
 # Downloading, installing libraries, define environment variables used in build process
 %post
@@ -74,9 +76,6 @@ From: python:3.10
 # Written to file in container which is run when 'apptainer run' is called . 
 # Appended parameters to run command are accessible here
 %runscript
-    # source /home/spinnaker/source/spinnaker_tools/setup
-    # source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
-
 
 # Written to file in container which is run when 'instance start' is called . 
 # Appended parameters to run command are accessible here
