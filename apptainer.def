@@ -29,7 +29,8 @@ From: python:3.10
     export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
     cd /home/spinnaker/source/spinnaker_tools
     source ${APPTAINER_ROOTFS}/home/spinnaker/source/spinnaker_tools/setup
-    cd /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
+    cd /home/spinnaker/source/sPyNNaker/neural_modelling/
+    source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
 
 # Downloading, installing libraries, define environment variables used in build process
 %post
@@ -46,12 +47,11 @@ From: python:3.10
     tar xvf ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev >/dev/null
     rm ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
     export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
-    echo $PATH
 
     # [Spinnaker] Perl
     apt-get install perl perl-tk libterm-readline-gnu-perl -y
 
-    # Checked in SupportScripts/setup to install for user
+    # [Workaround] Checked in SupportScripts/setup to install for user
     export VIRTUAL_ENV="Place"
 
     # [Spinnaker] Source repositories
@@ -67,6 +67,7 @@ From: python:3.10
 
     # [NESTML] Source repository
     git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
+    # Not installing nestml here because would be for root user
 
     # [NESTML] Python testing
     pip install pytest
