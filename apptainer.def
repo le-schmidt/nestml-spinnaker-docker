@@ -66,15 +66,9 @@ From: python:3.10
     # [Spinnaker] C Environment
     echo "Compiling libraries"
     cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh > /dev/null
-    # [SPINNAKER] Install
-    pip install matplotlib
-    pip install sPyNNaker
-    python -m spynnaker8.setup_pynn
 
     # [NESTML] Source repository
     git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
-    cd ${APPTAINER_ROOTFS}/home/nestml & git checkout stash
-    cd ${APPTAINER_ROOTFS}/home/nestml & python setup.py install
     # Not installing nestml here because would be for root user
 
     # [NESTML] Python testing
