@@ -73,6 +73,8 @@ From: python:3.10
 
     # [NESTML] Source repository
     git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
+    cd ${APPTAINER_ROOTFS}/home/nestml & git checkout stash
+    cd ${APPTAINER_ROOTFS}/home/nestml & python setup.py install
     # Not installing nestml here because would be for root user
 
     # [NESTML] Python testing
