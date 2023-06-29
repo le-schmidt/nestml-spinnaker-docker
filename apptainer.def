@@ -45,7 +45,7 @@ From: python:3.10
     # apt-get install gcc-arm-none-eabi  libnewlib-arm-none-eabi -y
     wget -P ${APPTAINER_ROOTFS}/home/dev https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
     echo "Unpacking gcc-arm-none-eabi toolchain"
-    tar xvf ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev >/dev/null
+    tar xvf ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev
     rm ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
     export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
 
@@ -60,13 +60,12 @@ From: python:3.10
     git clone https://github.com/SpiNNakerManchester/SupportScripts ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts
     cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/install.sh 8 -y
     # [Spinnaker] Setup libraries
-    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/setup.sh > /dev/null
+    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/setup.sh
     python -m spynnaker.pyNN.setup_pynn
 
     # [Spinnaker] C Environment
     echo "Compiling libraries"
-    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh > /dev/null
-
+    cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh
 
     # [Spinnaker] Hacking spinnaker board
     pip uninstall pyNN-SpiNNaker
@@ -75,7 +74,7 @@ From: python:3.10
     pip uninstall sPyNNakerExternalDevicesPlugin
     pip uninstall sPyNNakerExtraModelsPlugin
 
-    pip install sPyNNaker
+    pip install --exists-action=b sPyNNaker
 
     python -m spynnaker8.setup_pynn
 
