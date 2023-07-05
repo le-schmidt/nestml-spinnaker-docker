@@ -5,7 +5,15 @@ This repository contains the description files to make a Docker-Image as well as
 Before building the image edit the spynnaker.cfg to work with your board.
 This can also be done afterwards by copying and replacing the config file in your home directory with your edited version
 
+
+
 ## Apptainer
+
+Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPDIR variable to a path that you know has enough space left ~5GB
+	
+	export APPTAINER_TMP_DIR=<dir_with_free_space>
+
+
 1. To build the Apptainer image just run:
     
         apptainer build <path/to/target/image.sif> ./apptainer.def
