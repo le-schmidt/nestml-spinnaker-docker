@@ -22,20 +22,20 @@ Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPD
 
 2. We need to generate an overlay which is used to make folders writable
         
-        apptainer overlay create --size 512 /tmp/working_overlay.img
+        apptainer overlay create --size 512 <path/to/target/overlay_name.img>
 
 
 3. Start the container with shell by calling
 
-        apptainer shell --overlay /tmp/working_overlay.img /path/to/image.sif 
+        apptainer shell --overlay <path/to/target/overlay_name.img> /path/to/image.sif 
 
     or just run the container with
 
-        apptainer run --overlay /tmp/working_overlay.img /path/to/image.sif
+        apptainer run --overlay <path/to/target/overlay_name.img> /path/to/image.sif
 
     or execute a command in container with
 
-        apptainer exec --overlay /tmp/working_overlay.img /path/to/image.sif command
+        apptainer exec --overlay <path/to/target/overlay_name.img> /path/to/image.sif command
 
 4. Test if spinnaker is all setup by going to spinnaker source folder
 
@@ -44,6 +44,27 @@ Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPD
     and run the va_benchmark.py
 
         python PyNN8Examples/examples/va_benchmark.py
+
+5. Setup NESTML
+    Setup nestml for python
+
+        cd /home/nestml
+        git checkout spinnaker-new
+        python setup.py install --user
+
+    Setup folder for generated spinnaker models
+
+        cd spinnaker-install
+        python setup.py develop
+
+6. Test NESTML
+    Generate spinnaker source files and example
+
+        pytest tests/spinnaker_test/test_spinnaker_iaf_psc_exp.py
+
+    Run example
+
+        python spinnaker-install/examples/iaf_psc_exp_nestml_chain_example.py
 
 ## Docker (Untested)
 To build the Docker image just run:
