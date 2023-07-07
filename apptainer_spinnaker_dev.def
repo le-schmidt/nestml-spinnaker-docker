@@ -22,6 +22,7 @@ From: python:3.10
 
 # Save way to copy files: source destination(in container)
 %files
+    ./requirements_spinnaker.txt /home/spinnaker
 
 # Setting environment variables
 %environment
@@ -31,15 +32,13 @@ From: python:3.10
     cd /home/spinnaker/source/sPyNNaker/neural_modelling/
     source /home/spinnaker/source/sPyNNaker/neural_modelling/setup.bash
 
-
-
 # Downloading, installing libraries, define environment variables used in build process
 %post
     apt-get update -y
     apt-get upgrade -y
 
-    apt-get install nano vim -y
-    
+    # [Spinnaker] Python requirements
+    pip install -r ${APPTAINER_ROOTFS}/home/spinnaker/requirements_spinnaker.txt
 
     # [Spinnaker] Manual install arm-none-eabi toolchain (apt uses old version)
     # apt-get install gcc-arm-none-eabi  libnewlib-arm-none-eabi -y
@@ -48,7 +47,6 @@ From: python:3.10
     tar xvf ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 -C /home/dev >/dev/null
     rm ${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2
     export PATH=${APPTAINER_ROOTFS}/home/dev/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH
-
 
     # [Spinnaker] Perl
     apt-get install perl perl-tk libterm-readline-gnu-perl -y
@@ -67,12 +65,9 @@ From: python:3.10
     echo "Compiling libraries"
     cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh > /dev/null
 
-
     # [NESTML] Source repository
     git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
-    ${APPTAINER_ROOTFS}/home/nestml && git checkout stash
-    ${APPTAINER_ROOTFS}/home/nestml && python setup.py install		
- # Not installing nestml here because would be for root user
+    # Not installing nestml here because would be for root user
 
     # [NESTML] Python testing
     pip install pytest
