@@ -60,7 +60,8 @@ Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPD
 6. Test NESTML
     Generate spinnaker source files and example
 
-        pytest tests/spinnaker_test/test_spinnaker_iaf_psc_exp.py
+        cd ..
+        pytest tests/spinnaker_tests/test_spinnaker_iaf_psc_exp.py
 	
     Open spinnaker-install/examples/<neuronName>_chain_example.py and see if parameters are correct
 
