@@ -5,7 +5,15 @@ This repository contains the description files to make a Docker-Image as well as
 Before building the image edit the spynnaker.cfg to work with your board.
 This can also be done afterwards by copying and replacing the config file in your home directory with your edited version
 
+
+
 ## Apptainer
+
+Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPDIR variable to a path that you know has enough space left ~5GB
+	
+	export APPTAINER_TMP_DIR=<dir_with_free_space>
+
+
 1. To build the Apptainer image just run:
     
         apptainer build <path/to/target/image.sif> ./apptainer.def
@@ -14,20 +22,20 @@ This can also be done afterwards by copying and replacing the config file in you
 
 2. We need to generate an overlay which is used to make folders writable
         
-        apptainer overlay create --size 512 /tmp/working_overlay.img
+        apptainer overlay create --size 512 <path/to/target/overlay_name.img>
 
 
 3. Start the container with shell by calling
 
-        apptainer shell --overlay /tmp/working_overlay.img /path/to/image.sif 
+        apptainer shell --overlay <path/to/target/overlay_name.img> /path/to/image.sif 
 
     or just run the container with
 
-        apptainer run --overlay /tmp/working_overlay.img /path/to/image.sif
+        apptainer run --overlay <path/to/target/overlay_name.img> /path/to/image.sif
 
     or execute a command in container with
 
-        apptainer exec --overlay /tmp/working_overlay.img /path/to/image.sif command
+        apptainer exec --overlay <path/to/target/overlay_name.img> /path/to/image.sif command
 
 4. Test if spinnaker is all setup by going to spinnaker source folder
 
@@ -36,6 +44,29 @@ This can also be done afterwards by copying and replacing the config file in you
     and run the va_benchmark.py
 
         python PyNN8Examples/examples/va_benchmark.py
+
+5. Setup NESTML
+    Setup nestml for python
+
+        cd /home/nestml
+        git checkout spinnaker-new
+        python setup.py install --user
+
+    Setup folder for generated spinnaker models
+
+        cd spinnaker-install
+        python setup.py develop
+
+6. Test NESTML
+    Generate spinnaker source files and example
+
+        pytest tests/spinnaker_test/test_spinnaker_iaf_psc_exp.py
+	
+    Open spinnaker-install/examples/<neuronName>_chain_example.py and see if parameters are correct
+
+    Run example
+
+        python spinnaker-install/examples/iaf_psc_exp_nestml_chain_example.py
 
 ## Docker (Untested)
 To build the Docker image just run:

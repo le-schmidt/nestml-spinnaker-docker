@@ -68,20 +68,11 @@ From: python:3.10
     cd ${APPTAINER_ROOTFS}/home/spinnaker/source && bash ${APPTAINER_ROOTFS}/home/spinnaker/source/SupportScripts/automatic_make.sh > /dev/null
 
 
-    # [Spinnaker] Hacking spinnaker board
-    pip uninstall pyNN-SpiNNaker
-    pip uninstall sPyNNaker
-    pip uninstall sPyNNaker8
-    pip uninstall sPyNNakerExternalDevicesPlugin
-    pip uninstall sPyNNakerExtraModelsPlugin
-
-    pip install sPyNNaker
-
-    python -m spynnaker8.setup_pynn
-
     # [NESTML] Source repository
     git clone https://github.com/siirty/nestml.git ${APPTAINER_ROOTFS}/home/nestml
-    # Not installing nestml here because would be for root user
+    ${APPTAINER_ROOTFS}/home/nestml && git checkout stash
+    ${APPTAINER_ROOTFS}/home/nestml && python setup.py install		
+ # Not installing nestml here because would be for root user
 
     # [NESTML] Python testing
     pip install pytest
