@@ -29,13 +29,9 @@ Disclaimer: If you encounter a problem with storage space set the APPTAINER_TMPD
 
         apptainer shell --overlay <path/to/target/overlay_name.img> /path/to/image.sif 
 
-    or just run the container with
-
-        apptainer run --overlay <path/to/target/overlay_name.img> /path/to/image.sif
-
-    or execute a command in container with
-
-        apptainer exec --overlay <path/to/target/overlay_name.img> /path/to/image.sif command
+You can skip the next steps by running 
+	
+	./setup_script.sh
 
 4. Test if spinnaker is all setup by going to spinnaker source folder
 
